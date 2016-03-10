@@ -1,6 +1,6 @@
 #include "Barrier.hh"
 
-Barrier::Barrier(unsigned int n) : m{}, cv{}, count{0}, expect{n} generation{0} {}
+Barrier::Barrier(unsigned int n) : m{}, cv{}, count{0}, expect{n}, generation{0} {}
 
 bool Barrier::sync() {
     // lock will be released at the end of the function scope
