@@ -2,7 +2,7 @@
 
 Barrier::Barrier(unsigned int n) : m{}, cv{}, count{0}, expect{n}, generation{0} {}
 
-bool Barrier::sync() {
+bool Barrier::wait() {
     // lock will be released at the end of the function scope
     std::unique_lock<std::mutex> lock{m};
 

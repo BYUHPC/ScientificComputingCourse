@@ -20,7 +20,7 @@ public:
     /**
      * Returns true for the last thread in - false for all others
      */ 
-    bool sync(); 
+    bool wait(); 
 
 };
 
