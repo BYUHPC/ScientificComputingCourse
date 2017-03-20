@@ -4,7 +4,7 @@
 #include <mutex>
 #include <condition_variable>
 
-namespace fsl;
+namespace fsl {
 
 class Barrier {
 
@@ -19,9 +19,19 @@ public:
 
 	// Barriers cannot be safely copied
 	Barrier(Barrier const &) = delete;
+	Barrier & operator=(Barrier const &) = delete;
+
+	explicit Barrier(size_t n):
+		m{},
+		cv{},
+		count{n},
+		expect{n},
+		generation{0},
+		cf{[]() {}}
+	{}
 
 	template<typename CompletionFunction>
-	explicit Barrier(size_t n, CompletionFunction f):
+	Barrier(size_t n, CompletionFunction f):
 		m{},
 		cv{},
 		count{n},
@@ -31,46 +41,50 @@ public:
 	{}
 
 	void wait() {
-		// lock will be released at the end of scope
-		std::unique_lock<std::mutex> lock{m};
+		{
+			// lock will be released at the end of scope
+			std::unique_lock<std::mutex> lock{m};
 
-		if (--count == 0) {
-			// this branch is taken by only the last thread
+			if (--count != 0) {
+				// taken by all threads except the last
+
+				// capture the current generation
+				auto gen = generation;
+
+				do {
+					// release lock and sleep until signalled
+					cv.wait(lock);
+					// upon waking the lock will be acquired
+
+				// While loop prevents spurious wake-ups.
+				// Also prevents issues with a thread coming
+				// back into the barrier before all the
+				// other threads have left.
+				} while (gen == generation);
+
+				return; // lock is released
+
+			}
+
+			// remainder executed by only the last thread
+
+			cf();
 			count = expect;
 
 			// increasing the generation will allow the
-			// waiting threads to continue
+			// waiting threads to continue when they wake
 			++generation;
 
-			// signal all the threads waiting on the
-			// condition to wake up
-			cv.notify_all();
+		} // lock is released
 
-			// call the completion function
-			cf();
+		// signal all the threads waiting on the
+		// condition to wake up
+		cv.notify_all();
 
-		} else {
-
-			// capture the current generation
-			auto gen = generation;
-
-			// taken by all threads except the last
-			do {
-				// release lock and sleep until signalled
-				cv.wait(lock);
-				// upon waking the lock will be acquired
-
-			// While loop prevents spurious wake-ups.
-			// Also prevents issues with a thread coming
-			// back into the barrier before all the other
-			// threads have left.
-			} while (gen == generation);
-		}
-
-		// lock will be released upon returning
 	}
 
 };
 
+}
 
 #endif
