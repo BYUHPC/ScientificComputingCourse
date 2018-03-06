@@ -24,14 +24,14 @@ public:
   WorkQueue() = default;
   ~WorkQueue() = default;
 
-  // bool indicates whether the queue is empty
   // Only use the int if the bool is true
+  // In C++17 we could use std::optional instead
   pair<bool, int> dequeue() {
     unique_lock<mutex> lock(m);
     if (q.empty()) {
-      return pair<bool, int>(true, 0);
+      return pair<bool, int>(false, 0);
     } else {
-      pair<bool, int> p{false, q.front()};
+      pair<bool, int> p{true, q.front()};
       q.pop();
       return p;
     }
@@ -45,11 +45,11 @@ public:
 
 void worker(WorkQueue &queue, int tid, ostream &out) {
   do {
-    pair<bool, int> r(queue.dequeue());
-    if (get<bool>(r)) {
+    pair<bool, int> result(queue.dequeue());
+    if (!get<bool>(result)) {
       return;
     }
-    out << tid << ' ' << get<int>(r) << endl;
+    out << tid << ' ' << get<int>(result) << endl;
   } while (true);
 }
 
