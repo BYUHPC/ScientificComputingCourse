@@ -10,15 +10,10 @@
 using namespace std;
 
 /*
-
 Compile this file with something like this:
-
 $ g++ -std=c++14 -O3 WorkQueue.cc -lpthread -o WorkQueue
-
 And then run:
-
 $ ./WorkQueue
-
 */
 
 class WorkQueue {
