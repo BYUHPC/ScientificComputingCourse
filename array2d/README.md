@@ -9,9 +9,11 @@ The second file contains `array2d` and is one students should implement as an ex
 
 # Testing
 
-This project is set up using [CMake](https://cmake.org/) and uses its CTest capabilities. The [Catch2](https://github.com/catchorg/Catch2) testing framework has been included to test the `array1d` and `array2d` implementations.
+This project is set up using [CMake](https://cmake.org/) and uses its CTest capabilities. The [Catch2](https://github.com/catchorg/Catch2) testing framework.
 
-Here is how to clone this project and build the tests (which will fail since `array2d` is missing implementations):
+Tests for `array1d` have already been written. Students need to create a new file in `tests/` for testing `array2d` and edit `tests/CMakeLists.txt` to add include it in CMake.
+
+Here is how to clone this project and build the tests (which will fail because I explicitly fail one of the tests so you can get familiar with the output; you can remove this test):
 
 ```bash
 git clone https://github.com/BYUHPC/ScientificComputingCourse.git SCC
