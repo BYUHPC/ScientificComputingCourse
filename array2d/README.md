@@ -9,7 +9,7 @@ The second file contains `array2d` and is one students should implement as an ex
 
 # Testing
 
-This project is set up using [CMake](https://cmake.org/) and uses its CTest capabilities. The [Catch2](https://github.com/catchorg/Catch2) testing framework.
+This project is set up using [CMake](https://cmake.org/) and uses its CTest capabilities. The [Catch2](https://github.com/catchorg/Catch2) testing framework is set up to integrate with CTest.
 
 Tests for `array1d` have already been written. Students need to create a new file in `tests/` for testing `array2d` and edit `tests/CMakeLists.txt` to add include it in CMake.
 
