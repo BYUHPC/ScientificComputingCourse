@@ -7,7 +7,7 @@ The first is a (hopefully) working implementation of an array whose size is know
 
 The second file contains `array2d` and is one students should implement as an excercise. It depends on `array1d`. This serves as practice for C++ as well as learning how to map 2-dimensional arrays onto a 1-dimensional one, which we will need for our other exercises.
 
-# Testing
+## Testing
 
 This project is set up using [CMake](https://cmake.org/) and uses its CTest capabilities. The [Catch2](https://github.com/catchorg/Catch2) testing framework is set up to integrate with CTest.
 
