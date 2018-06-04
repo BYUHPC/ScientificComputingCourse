@@ -5,6 +5,7 @@
 #include <cstddef>
 #include <memory>
 #include <stdexcept>
+#include <utility>
 
 namespace fsl {
 
