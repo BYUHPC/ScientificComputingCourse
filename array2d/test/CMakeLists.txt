@@ -3,6 +3,8 @@ include(catch/Catch.cmake)
 
 # This library will help reduce compilation times
 add_library(catch OBJECT main.cc)
+target_compile_features(catch PUBLIC cxx_std_14)
+
 
 # Creates a test executable
 add_executable(test_array1d array1d.cc $<TARGET_OBJECTS:catch>)
