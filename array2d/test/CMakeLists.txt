@@ -13,5 +13,5 @@ target_link_libraries(test_array1d PRIVATE array2d)
 # This integrates each TEST_CASE with CTest
 catch_discover_tests(test_array1d)
 
-# This isn't needed becaues of catch_discover_tests
+# This isn't needed because of catch_discover_tests
 # add_test(test_array1d test_array1d)
