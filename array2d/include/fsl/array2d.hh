@@ -1,7 +1,9 @@
 #ifndef FSL_ARRAY2D_HH
 #define FSL_ARRAY2D_HH
 
-#include "array1d.hh"
+#include <cstddef>
+#include <utility>
+#include <valarray>
 
 namespace fsl {
 
@@ -10,15 +12,15 @@ public:
   using value_type = T;
   using reference = T &;
   using const_reference = T const &;
-  using size_type = typename array1d<T>::size_type;
+  using size_type = std::size_t;
 
   array2d() : columns_{}, storage_{} {}
 
   array2d(size_type rows, size_type columns)
-      : columns_{columns}, storage_{rows * columns} {}
+      : columns_{columns}, storage_(rows * columns) {}
 
   array2d(array2d const &b) = default;
-  array2d(array2d &&b) = default;
+  array2d(array2d &&b) noexcept = default;
   ~array2d() = default;
 
   size_type rows() const {
@@ -26,7 +28,12 @@ public:
     return 0;
   }
 
-  size_type columns() const { return 0; }
+  size_type columns() const { return columns_; }
+
+  bool empty() const {
+    // How do we know if the structure is empty?
+    return true;
+  }
 
   /* Return row `n` from the storage. */
   void operator[](size_type n) {
@@ -34,7 +41,7 @@ public:
     // What should the return type of this member function be?
   }
 
-  void const operator[](size_type row) const {
+  void const operator[](size_type n) const {
     // How do we implement the const version?
   }
 
@@ -48,16 +55,17 @@ public:
   }
 
   void swap(array2d &other) {
+    using std::swap;
     // How do we swap these?
   }
 
 private:
   /* The number of columns per row. */
   size_type columns_;
-  array1d<value_type> storage_;
+  std::valarray<value_type> storage_;
 };
 
 template <class T> void swap(array2d<T> &a, array2d<T> &b) { a.swap(b); }
-}
+} // namespace fsl
 
 #endif
