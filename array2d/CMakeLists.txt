@@ -12,17 +12,25 @@ target_compile_features(array2d INTERFACE cxx_std_14)
 # This sets up the include directory for the lib
 target_include_directories(array2d INTERFACE
 	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-	$<INSTALL_INTERFACE:include>
+	$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 
 # This creates an export; this is useful for other CMake projects
-install(TARGETS array2d EXPORT array2d)
 
+install(
+	TARGETS array2d EXPORT Array2dConfig
+	LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+	INCLUDES DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
+)
 # This actually writes out the export when `install` is ran
-install(EXPORT array2d DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/cmake")
+install(EXPORT Array2dConfig
+	FILE FSLArray2dConfig.cmake
+	NAMESPACE fsl::
+	DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/cmake"
+)
 
 # This copies the include files when `install` is ran
-install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/
 	DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
 
