@@ -2,6 +2,7 @@
 #define FSL_BARRIER_HH
 
 #include <condition_variable>
+#include <functional>
 #include <mutex>
 
 namespace fsl {
