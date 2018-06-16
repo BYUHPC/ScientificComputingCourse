@@ -54,6 +54,12 @@ public:
     return storage_[offset];
   }
 
+  const_reference operator()(size_type row, size_type column) const {
+    // How do we implement the const version?
+    size_type offset;
+    return storage_[offset];
+  }
+
   void swap(array2d &other) {
     using std::swap;
     // How do we swap these?
