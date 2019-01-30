@@ -18,7 +18,7 @@ cmake --build .
 # This is the command that runs the tests
 cmake --build . --target test
 ```
-This last command will fail because `array2d` is not fully implemented.
+This build commands will fail until `array2d` is fully implemented.
 
 If you are running these commands on our clusters at BYU then you will need to run these commands before running any cmake commands:
 
