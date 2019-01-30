@@ -1,4 +1,4 @@
-This folder essentially has 1 classes of interest, [`array2d`](include/fsl/array2d.hh). This is a skeleton class that students are expected to implement. This serves as practice for C++ as well as learning how to map 2-dimensional arrays onto a 1-dimensional one, which we will need for our other exercises.
+This folder essentially has 1 class of interest, [`array2d`](include/fsl/array2d.hh). This is a skeleton class that students are expected to implement. This serves as practice for C++ as well as learning how to map 2-dimensional arrays onto a 1-dimensional one, which we will need for our other exercises.
 
 ## Building and Testing
 
