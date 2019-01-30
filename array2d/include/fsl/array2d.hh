@@ -76,7 +76,7 @@ public:
 private:
   /* The number of columns per row. */
   size_type columns_;
-  std::valarray<value_type> storage_;
+  std::valarray<T> storage_;
 };
 
 template <class T> void swap(array2d<T> &a, array2d<T> &b) { a.swap(b); }
