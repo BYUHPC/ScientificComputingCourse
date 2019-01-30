@@ -1,6 +1,7 @@
 #ifndef FSL_ARRAY2D_HH
 #define FSL_ARRAY2D_HH
 
+#include <cassert>
 #include <cstddef>
 #include <utility>
 #include <valarray>
@@ -9,15 +10,15 @@ namespace fsl {
 
 template <class T> class array2d {
 public:
-  using value_type = T;
-  using reference = T &;
-  using const_reference = T const &;
   using size_type = std::size_t;
 
-  array2d() : columns_{}, storage_{} {}
-
   array2d(size_type rows, size_type columns)
-      : columns_{columns}, storage_(rows * columns) {}
+      : columns_{columns}, storage_(rows * columns) {
+    // in debug builds these checks will happen
+    // in release builds these checks will not happen
+    assert(rows > 0);
+    assert(columns > 0);
+  }
 
   array2d(array2d const &b) = default;
   array2d(array2d &&b) noexcept = default;
@@ -30,36 +31,43 @@ public:
 
   size_type columns() const { return columns_; }
 
-  bool empty() const {
-    // How do we know if the structure is empty?
-    return true;
-  }
-
-  /* Return row `n` from the storage. */
+  /* Return row `n` from the storage, which should support operator[].
+   * Changes made to the return value should be reflected in this object.
+   *
+   * Example:
+   *   array2d<float> a{1,2};
+   *   auto first = a[0];
+   *   first[0] = 0;
+   *   first[1] = 1;
+   *   assert(a[0][0] == 1);
+   *   assert(a[0][1] == 1);
+   */
   void operator[](size_type n) {
-    // How do we return a single row? How big is a single row?
-    // What should the return type of this member function be?
+    /* How do we return a single row? How big is a single row?
+     * What should the return type of this member function be?
+     */
   }
 
-  void const operator[](size_type n) const {
-    // How do we implement the const version?
-  }
-
-  /* Return the element at row and column. These should be equivalent:
+  /* Return the element at row and column.
+   *
+   * Example:
+   *   array2d<float> a{2,2};
+   *   a(0, 0) = 0;
+   *   a(0, 1) = 1;
+   *   a(1, 0) = 2;
+   *   a(1, 1) = 3;
+   *
+   * These should be equivalent:
    *     (*this)(row, column) == (*this)[row][column]
-   * but operator() should generally be more efficient. */
-  reference operator()(size_type row, size_type column) {
+   * but operator() should generally be more efficient.
+   */
+  T &operator()(size_type row, size_type column) {
     // How do we translate row and column (2d) into offset (1d)?
     size_type offset;
     return storage_[offset];
   }
 
-  const_reference operator()(size_type row, size_type column) const {
-    // How do we implement the const version?
-    size_type offset;
-    return storage_[offset];
-  }
-
+  /* Swap all the contents of `other` with `this`, and vice versa. */
   void swap(array2d &other) {
     using std::swap;
     // How do we swap these?
